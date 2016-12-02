@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            overflow-x:hidden;
+            overflow-y:hidden;
+        }
+        #bg{
+            position: relative;
+            height: 330px;
+            background: #002233;
+
+        }
+        #box{
+            position: relative;
+            margin: 50px auto;
+            width: 1000px;
+            height: 330px;
+            perspective: 800px;
+            transform-style: preserve-3d;
+
+        }
+
+        .container{
+            width: 100px;
+            height: 110px;
+            float: left;
+        }
+    </style>
+</head>
+<body>
+<div id="bg">
+    <div id="box"></div>
+    <script>
+        var oBox=document.querySelector('#box');
+
+        var rows=3;
+        var cols=10;
+
+        var current=0;
+        var clickabel = true;
+
+        for(var row=0; row<rows; row++){
+            for(var col = 0; col < cols ;col++){
+                var oContainer = document.createElement('div');
+                    oContainer.classList.add('container');
+
+                oContainer.dataset.col = col;
+                oContainer.dataset.row = row;
+
+                oBox.appendChild(oContainer);
+            }
+        }
+
+        var aContainer = document.querySelectorAll('.container');
+
+        document.documentElement.onclick=function () {
+
+            if( !clickabel ) return; clickabel = false;
+
+            //随机设置每个aContainer出现的时间
+            setTransition();
+
+            for (var i = aContainer.length - 1; i >= 0; i--) {
+                aContainer[i].style.opacity = '1';
+
+                var deltaX = aContainer[i].dataset.col - 3.5;
+                var deltaY = aContainer[i].dataset.row - 2;
+
+                aContainer[i].style.transform = `perspective(800px) translateZ(800px) translateX(${deltaX*40}px) translateY(${deltaY*40}px) rotateX(${rnd(0,180)}deg) rotateY(${rnd(0,180)}deg)`
+                aContainer[i].style.opacity = '0';
+            }
+
+            setTimeout(function(){
+                current++;
+
+                for( var i = 0;i<aContainer.length;i++ ){
+                    aContainer[i].style.transition = '';
+                    aContainer[i].style.opacity = '1';
+
+                    aContainer[i].style.transform = '';
+                }
+
+                setBackground();
+                clickabel = true;
+            },500)
+
+        }
+
+        function rnd(n,m){
+            return parseInt(Math.random()*(m-n)+n);
+        }
+
+        function setBackground(){
+            for( var i = 0;i<aContainer.length;i++ ){
+                aContainer[i].style.backgroundImage = `url(../img/slideShow/${current%4}.jpg)`;
+                aContainer[i].style.backgroundPosition = `${-aContainer[i].dataset.col*100}px ${-aContainer[i].dataset.row*110}px`;
+
+                oBox.style.backgroundImage = `url(../img/slideShow/${(current+1)%4}.jpg)`;
+            }
+        }
+
+        function setTransition(){
+            for( var i = 0;i<aContainer.length;i++ ){
+
+                aContainer[i].style.transition = `0.7s ${rnd(0,200)}ms`;
+            }
+        }
+
+        setBackground();
+        setTransition();
+    </script>
+</div>
+
+</body>
+</html>

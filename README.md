@@ -18,7 +18,7 @@
 
 # 2.页面滚动
 整体项目采用基于Velocity.js的超酷滚动页面特效
-> [Velocity.js地址](https://github.com/julianshapiro/velocity)  
+> [Velocity.js地址](https://github.com/julianshapiro/velocity)
 
 ## 使用方法
 * 要使用某种内置的页面滚动效果，可以在<body>标签上使用data-animation和data-hijacking属性来指定。

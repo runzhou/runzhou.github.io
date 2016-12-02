@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>时钟</title>
+    <style>
+        body{
+            background: #e9e7ef;
+            text-align: center;
+        }
+        #box{
+            font: 40px Arial Black;
+        }
+
+    </style>
+</head>
+<body>
+    <canvas id="canvas" width="1000" height="300" >
+    </canvas>
+    <div id="box">距离2017年还有0天0时0分0秒</div>
+    <script>
+        var canvas=document.getElementById('canvas');
+
+        var ctx=canvas.getContext('2d');
+        var d = 0;
+        var timer;
+
+        ctx.lineWidth=20;
+        ctx.lineCap='round';
+
+        setInterval(function(){
+            clear(ctx)
+            ctx.font=`${40}px Arial Black`;
+            ctx.fillText('Time',470,100);
+
+            ctx.lineWidth = 20;
+            ctx.stroke();
+
+            var date=new Date();
+            var hour=date.getHours();
+            var minute=date.getMinutes();
+            var second=date.getSeconds();
+            var millisecond = date.getMilliseconds();
+
+            //画秒针
+            ctx.beginPath();
+            ctx.strokeStyle='#F5003E';
+            ctx.arc(350,150,100,d2a(-90),d2a(((second+millisecond/1000)/60*360)-90),false);
+            ctx.stroke();
+
+            // 画分针
+            ctx.beginPath();
+            ctx.strokeStyle = '#ABFF10';
+            ctx.arc(350,150,75,d2a(-90),d2a(((minute+second/60)/60*360)-90),false);
+            ctx.stroke();
+
+            // 画时针
+            ctx.beginPath();
+            ctx.strokeStyle = '#23FBF2';
+            ctx.arc(350,150,50,d2a(-90),d2a(((hour + minute/60)%12/12*360)-90),false);
+
+            ctx.fillText(`${addZero(hour)}:${addZero(minute)}:${addZero(second)}`,470,200);
+
+            ctx.stroke();
+            countDown();
+        },16);
+
+        /*
+        倒计时
+         */
+        function countDown(){
+            var oBox=document.getElementById('box');
+            var oDate=new Date();
+
+            //把当前日期设置微2017年1.1
+            oDate.setFullYear(2017,0,1);
+            oDate.setHours(00,00,00,00 );
+
+            var now=new Date();
+            //距离2017年的毫秒数
+            var ms=oDate.getTime()-now.getTime();
+            var s=parseInt(ms/1000);
+
+            var d=parseInt(s/86400);
+
+            s%=86400;
+
+            var h=parseInt(s/3600);
+
+            s%=3600;
+
+            var m=parseInt(s/60);
+
+            s%=60;
+
+            oBox.innerHTML='距离2017年还有'+d+'天'+h+'时'+m+'分'+s+'秒';
+
+        }
+
+        function addZero(n){
+            return n > 9 ? n : '0'+n;
+        }
+
+        function d2a(d){
+            return d/180*Math.PI;
+        }
+
+
+        function clear(ctx){
+            ctx.clearRect(0,0,canvas.width,canvas.height)
+        }
+
+    </script>
+</body>
+</html>

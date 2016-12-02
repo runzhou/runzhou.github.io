@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>轮播图</title>
+    <link rel="stylesheet" href="../css/common.css"/>
+    <style>
+        .box{
+            position: relative;
+            height: 330px;
+            background: #002233;
+
+        }
+        #page{
+            position: relative;
+            margin: 50px auto;
+            width: 1000px;
+            height: 330px;
+            perspective: 800px;
+            transform-style: preserve-3d;
+
+        }
+        #left{
+            position: absolute;
+            left: 0;
+            width: 500px;
+            height: 330px;
+            z-index: 20;
+        }
+        #right{
+            position: absolute;
+            right: 0;
+            width: 500px;
+            height: 330px;
+        }
+        #slide{
+            position: absolute;
+            width: 500px;
+            height: 330px;
+            right: 0;
+            transform-style: preserve-3d;
+            transform-origin: left center;
+            z-index: 21;
+        }
+
+        #front{
+            position: absolute;
+            width: 500px;
+            height: 330px;
+            z-index: 20;
+            backface-visibility: hidden;
+        }
+        #back{
+            position: absolute;
+            width: 500px;
+            height: 330px;
+            z-index: 10;
+            transform: scale(-1,1);
+        }
+    </style>
+</head>
+<body>
+    <div class="box" id="first">
+        <div id="page">
+            <div id="left"></div>
+            <div id="slide">
+                <div id="front"></div>
+                <div id="back"></div>
+            </div>
+            <div id="right"></div>
+        </div>
+    </div>
+    <script>
+        var oPage=document.querySelector("#page");
+        var oLeft = document.querySelector('#left');
+        var oSlide = document.querySelector('#slide');
+        var oFront = document.querySelector('#front');
+        var oBack = document.querySelector('#back');
+        var oRight = document.querySelector('#right');
+
+        var current=0;
+        
+        page();
+        
+        function page() {
+
+            setImg();
+
+            oSlide.onclick=function () {
+                oSlide.style.transition="0.7s";
+                oSlide.style.transform="rotateY(-180deg)";
+            };
+
+            // 翻页完毕之后，瞬间变回原样
+            oSlide.addEventListener('transitionend',function(){
+                oSlide.style.transition = "";
+                oSlide.style.transform = "";
+
+                current++;
+                setImg();
+
+            },false)
+        }
+        function setImg() {
+
+            oLeft.style.backgroundImage=`url(../img/slideShow/${current%4}.jpg)`;
+            oRight.style.backgroundImage=`url(../img/slideShow/${(current+1)%4}.jpg)`;
+            oRight.style.backgroundPosition="-500px 0";
+
+            oFront.style.backgroundImage=`url(../img/slideShow/${current%4}.jpg)`;
+            oFront.style.backgroundPosition="-500px 0";
+
+            oBack.style.backgroundImage=`url(../img/slideShow/${(current+1)%4}.jpg)`;
+        }
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>翻转轮播</title>
+    <link rel="stylesheet" href="../css/common.css"/>
+    <style>
+        #bg{
+            position: relative;
+            height: 330px;
+            background: #002233;
+
+        }
+        #box{
+            position: relative;
+            margin: 50px auto;
+            width: 1000px;
+            height: 330px;
+            perspective: 800px;
+            transform-style: preserve-3d;
+
+        }
+
+        .container{
+            width:100px;
+            height:110px;
+            float: left;
+            position: relative;
+            transform-style: preserve-3d;
+        }
+        .front,.back{
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        .front{
+            z-index: 20;
+            backface-visibility: hidden;
+        }
+        .back{
+            z-index: 18;
+            transform: scale(-1,1);
+        }
+
+
+
+    </style>
+</head>
+<body>
+    <div id="bg">
+        <div id="box"></div>
+    </div>
+    <script>
+        var oBox=document.querySelector('#box');
+        var rows=3;
+        var cols=10;
+
+        var aContainer;
+        var current=0;
+
+        for(var row=0;row<rows;row++){
+            for(var col=0; col<cols;col++){
+
+                //创建容器
+                var oContainer=document.createElement('div');
+                    oContainer.classList.add('container');
+
+                //翻转时前面显示的图片
+                var oFront=document.createElement('div');
+                    oFront.classList.add('front');
+                    oFront.style.backgroundImage=`url(../img/slideShow/${current}.jpg)`;
+                    oFront.style.backgroundPosition=`${-col*100}px ${-row*110}px`;
+
+                //翻转时后面显示的图片
+                var oBack = document.createElement('div');
+                    oBack.classList.add('back')
+
+                    oBack.style.backgroundImage = `url(../img/slideShow/${current+1}.jpg)`;
+                    oBack.style.backgroundPosition = `${-col*100}px ${-row*110}px`;
+
+                oContainer.appendChild(oFront);
+                oContainer.appendChild(oBack);
+
+                //增加自定义属性记录不同位置的延时时间
+                oContainer.dataset.index=col+row;
+
+                oBox.appendChild(oContainer);
+            }
+        }
+
+        aContainer=document.querySelectorAll(".container");
+
+        document.documentElement.onclick=function () {
+            for(var i =0;i< aContainer.length;i++){
+                //增加变形属性
+                aContainer[i].style.transform="perspective(800px) rotateY(180deg)";
+                //增加变化补间值
+                aContainer[i].style.transition=`.7s ${aContainer[i].dataset.index*0.2}s`;
+            }
+        }
+
+        // 最后一个变形完成后将图片重置
+        aContainer[aContainer.length-1].addEventListener('transitionend',function(){
+
+            // 当前图片自增
+            current++;
+
+            // 循环所有container更改样式
+            for (var i = aContainer.length - 1; i >= 0; i--) {
+                aContainer[i].children[0].style.backgroundImage = `url(../img/slideShow/${current%4}.jpg)`
+                aContainer[i].children[1].style.backgroundImage = `url(../img/slideShow/${(current+1)%4}.jpg)`
+
+                // 防止变化重置时的动画
+                aContainer[i].style.transition = ''
+                aContainer[i].style.transform = ''
+            }
+        },false)
+
+
+    </script>
+</body>
+</html>
