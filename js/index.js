@@ -81,7 +81,7 @@
 		outerRadius: 30, //外圆的半径
 		innerStyle: '#F77F89', //内圆填充的颜色呢
 		outerStyle: '#F87A85', //外圆环填充的颜色
-		text: 'ajax'
+		text: 'android'
 	});
 	L2_CircleText_AJAX.addToGroupOrLayer(L2Group);
 
@@ -175,7 +175,7 @@
 		outerRadius: 45, //外圆半径
 		innerStyle: '#CF2782', //内圆的填充样式
 		outerStyle: '#F2E3EE', //外圆的填充样式
-		text: 'bootstrap' //圆形内的文字
+		text: 'JAVA' //圆形内的文字
 	});
 	L3_CircleText_BOOTSTRAP.addToGroupOrLayer(L3_group);
 
