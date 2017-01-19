@@ -14,7 +14,7 @@
         };
 
         var dots = {
-            nb: 250,
+            nb: 250,   //在Canvas中创建250个点
             distance: 100,
             d_radius: 150,
             array: []
@@ -24,14 +24,16 @@
             return Math.floor(Math.random() * 255 + min);
         }
 
+        /*生成随机的颜色*/
         function createColorStyle(r,g,b) {
             return 'rgba(' + r + ',' + g + ',' + b + ', 0.8)';
         }
-
+        /*计算连线的RGB值，这个值会小于255*/
         function mixComponents(comp1, weight1, comp2, weight2) {
             return (comp1 * weight1 + comp2 * weight2) / (weight1 + weight2);
         }
 
+        /*计算出生成的两点之间颜色的平均值，这个颜色值是两点连线的颜色rgb值*/
         function averageColorStyles(dot1, dot2) {
             var color1 = dot1.color,
                     color2 = dot2.color;
@@ -42,6 +44,7 @@
             return createColorStyle(Math.floor(r), Math.floor(g), Math.floor(b));
         }
 
+        /*生成随机的r g b*/
         function Color(min) {
             min = min || 0;
             this.r = colorValue(min);
@@ -50,16 +53,17 @@
             this.style = createColorStyle(this.r, this.g, this.b);
         }
 
+        /*生成点*/
         function Dot(){
-            this.x = Math.random() * canvas.width;
-            this.y = Math.random() * canvas.height;
+            this.x = Math.random() * canvas.width;//点的X坐标
+            this.y = Math.random() * canvas.height;//点的Y坐标
 
-            this.vx = -.5 + Math.random();
+            this.vx = -.5 + Math.random();//点移动的速度 0~0.5 每次移动的距离
             this.vy = -.5 + Math.random();
 
-            this.radius = Math.random() * 2;
+            this.radius = Math.random() * 2;//得到一个0——2的随机数，用于计算点之间连线的颜色的rgb值
 
-            this.color = new Color();
+            this.color = new Color(); //给这个点一个随机的颜色
             console.log(this);
         }
 
@@ -67,14 +71,14 @@
             draw: function(){
                 ctx.beginPath();
                 ctx.fillStyle = this.color.style;
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);//以这个点为圆心，创建一个圆
                 ctx.fill();
             }
         };
-
+        /*在Canvas中创建250个点*/
         function createDots(){
             for(i = 0; i < dots.nb; i++){
-                dots.array.push(new Dot());
+                dots.array.push(new Dot());//把这些点加入数组队列中
             }
         }
 
@@ -83,15 +87,15 @@
 
                 var dot = dots.array[i];
 
-                if(dot.y < 0 || dot.y > canvas.height){
+                if(dot.y < 0 || dot.y > canvas.height){ //如果点y坐标走出了Canvas的范围，让点的Y坐标往回走
                     dot.vx = dot.vx;
                     dot.vy = - dot.vy;
                 }
-                else if(dot.x < 0 || dot.x > canvas.width){
+                else if(dot.x < 0 || dot.x > canvas.width){//如果点X坐标走出了Canvas的范围，让点的坐标往回走
                     dot.vx = - dot.vx;
                     dot.vy = dot.vy;
                 }
-                dot.x += dot.vx;
+                dot.x += dot.vx;//每次移动后的位置，超出范围后往回走
                 dot.y += dot.vy;
             }
         }
