@@ -98,7 +98,7 @@
                 dot.x += dot.vx;//每次移动后的位置，超出范围后往回走
                 dot.y += dot.vy;
             }
-        }
+        }w
 
         function connectDots() {
             for(i = 0; i < dots.nb; i++){
