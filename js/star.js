@@ -58,10 +58,10 @@
             this.x = Math.random() * canvas.width;//点的X坐标
             this.y = Math.random() * canvas.height;//点的Y坐标
 
-            this.vx = -.5 + Math.random();//点移动的速度 0~0.5 每次移动的距离
+            this.vx = -.5 + Math.random();//点移动的速度 -0.5~0.5 每次移动的距离
             this.vy = -.5 + Math.random();
 
-            this.radius = Math.random() * 2;//得到一个0——2的随机数，用于计算点之间连线的颜色的rgb值
+            this.radius = Math.random() * 2;//得到一个0——2的随机数，作为点的半径
 
             this.color = new Color(); //给这个点一个随机的颜色
             console.log(this);
@@ -71,7 +71,7 @@
             draw: function(){
                 ctx.beginPath();
                 ctx.fillStyle = this.color.style;
-                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);//以这个点为圆心，创建一个圆
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);//，创建一个圆点
                 ctx.fill();
             }
         };
@@ -81,7 +81,7 @@
                 dots.array.push(new Dot());//把这些点加入数组队列中
             }
         }
-
+        /*让点运动*/
         function moveDots() {
             for(i = 0; i < dots.nb; i++){
 
@@ -98,14 +98,14 @@
                 dot.x += dot.vx;//每次移动后的位置，超出范围后往回走
                 dot.y += dot.vy;
             }
-        }w
-
+        }
+        /*让点之间连线*/
         function connectDots() {
             for(i = 0; i < dots.nb; i++){
                 for(j = 0; j < dots.nb; j++){
                     i_dot = dots.array[i];
                     j_dot = dots.array[j];
-
+                    //如果点与点之间x轴，y轴距离小于100&&鼠标与点直X，Y轴间的距离小于150时候进行连线
                     if((i_dot.x - j_dot.x) < dots.distance && (i_dot.y - j_dot.y) < dots.distance && (i_dot.x - j_dot.x) > - dots.distance && (i_dot.y - j_dot.y) > - dots.distance){
                         if((i_dot.x - mousePosition.x) < dots.d_radius && (i_dot.y - mousePosition.y) < dots.d_radius && (i_dot.x - mousePosition.x) > - dots.d_radius && (i_dot.y - mousePosition.y) > - dots.d_radius){
                             ctx.beginPath();
@@ -119,7 +119,7 @@
                 }
             }
         }
-
+        /*画点*/
         function drawDots() {
             for(i = 0; i < dots.nb; i++){
                 var dot = dots.array[i];
@@ -135,12 +135,12 @@
 
             requestAnimationFrame(animateDots);
         }
-
+        /*当鼠标在画布上的时候，位置发生在鼠标光标处*/
         $('canvas').on('mousemove', function(e){
             mousePosition.x = e.pageX;
             mousePosition.y = e.pageY;
         });
-
+        /*当鼠标不在画布上的时候，位置发生在光标中间*/
         $('canvas').on('mouseleave', function(e){
             mousePosition.x = canvas.width / 2;
             mousePosition.y = canvas.height / 2;
