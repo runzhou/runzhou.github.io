@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="a75e0363-c186-486a-87ff-16b4e042f4dc" name="默认的" comment="resume">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
     </list>
     <ignored path="resume.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -46,7 +45,7 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="437">
+            <state relative-caret-position="23">
               <caret line="19" column="28" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
               <folding />
             </state>
@@ -105,9 +104,9 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-9" />
+    <option name="x" value="-8" />
     <option name="width" value="1931" />
-    <option name="height" value="1048" />
+    <option name="height" value="1038" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <OptionsSetting value="true" id="Add" />
@@ -323,7 +322,7 @@
       <workItem from="1481456497432" duration="13883000" />
       <workItem from="1484490112659" duration="953000" />
       <workItem from="1484833870434" duration="6587000" />
-      <workItem from="1486266632217" duration="13353000" />
+      <workItem from="1486266632217" duration="15467000" />
     </task>
     <task id="LOCAL-00001" summary="默认的">
       <created>1480707245370</created>
@@ -381,14 +380,21 @@
       <option name="project" value="LOCAL" />
       <updated>1486481271442</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="resume">
+      <created>1486481454916</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1486481454916</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="96428000" />
+    <option name="totallyTimeSpent" value="98542000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-9" y="0" width="1931" height="1048" extended-state="0" />
+    <frame x="-8" y="0" width="1931" height="1038" extended-state="1" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.14005305" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -757,7 +763,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="437">
+        <state relative-caret-position="23">
           <caret line="19" column="28" selection-start-line="19" selection-start-column="28" selection-end-line="19" selection-end-column="28" />
           <folding />
         </state>
