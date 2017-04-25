@@ -126,7 +126,7 @@
                 dot.draw();
             }
         }
-
+        /*点的动画效果*/
         function animateDots() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             moveDots();

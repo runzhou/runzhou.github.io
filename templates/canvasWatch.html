@@ -17,7 +17,7 @@
 <body>
     <canvas id="canvas" width="1000" height="300" >
     </canvas>
-    <div id="box">距离2017年还有0天0时0分0秒</div>
+    <div id="box">距离2018年还有0天0时0分0秒</div>
     <script>
         var canvas=document.getElementById('canvas');
 
@@ -72,8 +72,8 @@
             var oBox=document.getElementById('box');
             var oDate=new Date();
 
-            //把当前日期设置微2017年1.1
-            oDate.setFullYear(2017,0,1);
+            //把当前日期设置微2018年1.1
+            oDate.setFullYear(2018,0,1);
             oDate.setHours(00,00,00,00 );
 
             var now=new Date();
@@ -93,7 +93,7 @@
 
             s%=60;
 
-            oBox.innerHTML='距离2017年还有'+d+'天'+h+'时'+m+'分'+s+'秒';
+            oBox.innerHTML='距离2018年还有'+d+'天'+h+'时'+m+'分'+s+'秒';
 
         }
 
