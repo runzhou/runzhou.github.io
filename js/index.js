@@ -1,6 +1,6 @@
 (function() {
 	// canvas技能
-	//创建舞台
+	//创建舞台。konva是一个基于canvas的2D框架
 	var stage = new Konva.Stage({
 		container: 'circleText',
 		width: 450,
