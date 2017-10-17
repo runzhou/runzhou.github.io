@@ -1,0 +1,185 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>懒加载</title>
+    <meta charset="utf-8">
+    <meta name="Author" content="xiao">
+    <link rel="stylesheet" href="css/index.css">
+    <script src="js/myAjax.js"></script>
+</head>
+<body>
+<div class="container">
+	<!-- <div class="movie" style="left: 420px; top: 5065px;">
+		 <a href="#" target="blank">
+			<img class="pic" src="http://img3.doubanio.com/view/movie_poster_cover/lpst/public/p1832875827.jpg" width="200" height="auto">
+		 </a>
+		<p class="year">
+			<i class="ml15">2010</i>
+			<span class="mr15">Shutter Island</span>
+		</p>
+		<p class="movie_info">
+			<span class="title ml15">禁闭岛</span>
+			<span class="score mr15">8.6</span>
+		</p>
+	</div> -->
+</div>
+<script>
+	
+	var width=200;//单个元素宽度
+	var space=10;//间隙
+	var outerWidth=width+space;
+	var	num=0;	//一行放几个
+	var wW=window.innerWidth;//浏览器宽度
+	var arrTop=[];
+	var arrLeft=[];
+	var outTimer;
+	var lastDom=null;
+	var toggle=false;//滚动加载开关
+	var start=0;//开始时加载数
+
+	var cache=[];//缓存池
+
+	var oCon=document.querySelector('.container');
+
+	cell();
+
+	
+
+	
+
+	//第一次调用 执行获取数据
+	getData({
+		data:{
+				start:0,
+				count:20
+			},
+		callback:function(res){
+			//console.log(res);
+			var movie=formatData(res);
+			renderData(movie);
+
+		}
+	});
+
+	window.addEventListener('scroll',function(){
+		var sheight=document.documentElement.scrollTop+window.innerHeight;
+		
+		if(toggle){
+			var lastIndexHeight=lastDom.offsetTop+
+		(lastDom.offsetHeight/2);
+			if(lastIndexHeight<sheight){
+				toggle=false;
+				renderData(cache);
+				
+			}
+		}
+		
+	})
+
+	/*格式整理*/
+	function cell(){
+		num=Math.floor(wW/outerWidth);//算几列 
+		oCon.style.width=num*outerWidth-space+'px';
+		
+		for(var i=0;i<num;i++){
+			arrTop.push(0);
+			arrLeft.push(i*outerWidth);
+		}
+	
+	}
+
+	/*获取数据 调用ajax方法*/
+	function getData(opt){
+		myAjax({
+			url:'http://120.77.174.93/dbmovie',
+			data:opt.data,
+			method:'GET',
+			success:function(res){
+				//console.log(res);
+				var data=JSON.parse(res);
+				opt['callback']&&opt['callback'](data);
+			}
+		});
+	}
+	/*整理数据*/
+	function formatData(data){
+		var movie=[]
+		//console.log('这里是整理数据'+data);
+		data.forEach(function(item){//遍历原始数据数组
+			movie.push({
+				title:item.title,
+				coverImg:item.images.large,
+				original_title:item.original_title,
+				year:item.year,
+				score:item.rating.average 
+			});
+		});
+		//console.log(movie);
+		return movie; 
+	}
+
+	/*数据渲染*/
+	function renderData(data){
+		var index=0;
+		var length=data.length;
+		//var item=data[0];//数据中第一条数据对象
+
+		(function recur(){//递归渲染
+			var item=data[index];
+			var minIndex=arrTop.indexOf(Math.min(...arrTop));//高度最小的下标
+			var oDiv=document.createElement('div');//创建div
+			oDiv.className='movie';
+			oDiv.innerHTML=`
+				<a href="#" target="blank">
+					<img class="pic" src="${item.coverImg}"
+					width="200" height="auto">
+			 	</a>
+				<p class="year">
+					<i class="ml15">${item.year}</i>
+					<span class="mr15">${item.original_title}</span>
+				</p>
+				<p class="movie_info">
+					<span class="title ml15">${item.title}</span>
+					<span class="score mr15">${item.score}</span>
+				</p>`
+			oDiv.style.top=0+'px';
+			oDiv.style.left=0+'px';
+			oCon.appendChild(oDiv);
+			oDiv.querySelector('img').onload=function(){
+				clearTimeout(outTimer);
+				outTimer=setTimeout(function(){
+					oDiv.style.left=arrLeft[minIndex]+'px';
+					oDiv.style.top=arrTop[minIndex]+'px';
+					arrTop[minIndex]+=oDiv.offsetHeight+2*space;
+					index++;
+					if(index===length-1){
+						lastDom=oDiv;
+						toggle=true;
+					}//把最后一个元素赋给lastDom
+					index<length&&recur();
+				},50);
+							
+			}
+		}());
+		start+=20;
+		/*第二次调用，把数据放到缓存池李*/
+		getData({
+			data:{
+					start:start,
+					count:20
+				},
+			callback:function(res){
+				cache=[];//情况缓存池
+				//console.log(res);
+				var movie=formatData(res);
+				cache=movie;//
+
+			}
+		});
+	}
+
+
+	
+</script>
+</body>
+</html>
